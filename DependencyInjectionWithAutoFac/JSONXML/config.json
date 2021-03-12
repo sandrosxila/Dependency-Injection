@@ -1,0 +1,8 @@
+﻿{
+  "defaultAssembly": "JSONXML",
+  "modules": [
+    {
+      "type" : "JSONXML.CalculationModule"
+    }
+  ]
+}

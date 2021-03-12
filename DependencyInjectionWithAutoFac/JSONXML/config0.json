@@ -1,0 +1,21 @@
+﻿{
+  "defaultAssembly": "JSONXML",
+  "components": [
+    {
+      "type": "JSONXML.Addition",
+      "services": [
+        {
+          "type": "JSONXML.IOperation"
+        }
+      ]
+    },
+    {
+      "type": "JSONXML.Multiplication",
+      "services": [
+        {
+          "type": "JSONXML.IOperation"
+        }
+      ]
+    }
+  ]
+}

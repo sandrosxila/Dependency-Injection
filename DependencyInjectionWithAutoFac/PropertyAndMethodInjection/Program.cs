@@ -1,6 +1,9 @@
 ﻿using System;
+using System.Reflection;
+using Autofac;
+using Autofac.Core;
 
-namespace PropertyAndMethodInjection
+namespace PassingParametersToRegister
 {
     public interface ILog
     {
@@ -90,11 +93,48 @@ namespace PropertyAndMethodInjection
             log.Write($"Car is going forward");
         }
     }
+
+    public class Parent
+    {
+        public override string ToString()
+        {
+            return "I am your father";
+        }
+    }
+
+    public class Child
+    {
+        public string Name { get; set; }
+        public Parent Parent { get; set; }
+
+        public void SetParent(Parent parent)
+        {
+            Parent = parent;
+        }
+    }
+    
     internal class Program
     {
         public static void Main(string[] args)
         {
-            
+            var builder = new ContainerBuilder();
+            builder.RegisterType<Parent>();
+            // builder.RegisterType<Child>().PropertiesAutowired();
+            // builder.RegisterType<Child>().WithProperty("Parent", new Parent());
+            // builder.Register(c =>
+            // {
+            //     var child = new Child();
+            //     child.SetParent(c.Resolve<Parent>());
+            //     return child; 
+            // });
+            builder.RegisterType<Child>().OnActivated(e =>
+            {
+                var p = e.Context.Resolve<Parent>();
+                e.Instance.SetParent(p);
+            });
+            var container = builder.Build(); 
+            var parent = container.Resolve<Child>().Parent;
+            Console.WriteLine(parent);
         }
     }
 }
